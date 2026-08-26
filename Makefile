@@ -23,7 +23,7 @@ all: $(KERNEL)
 $(KERNEL): $(OBJS) linker.ld
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
 
-$(BUILD)/entry.o: boot/entry.s
+$(BUILD)/entry.o: boot/entry.asm
 	mkdir -p $(BUILD)
 	$(AS) -f elf64 $< -o $@
 
