@@ -17,7 +17,7 @@ jobs:
     - name: Install deps
       run: |
         sudo apt-get update
-        sudo apt-get install -y nasm grub-pc-bin grub-common xorriso
+        sudo apt-get install -y nasm grub-pc-bin grub-common xorriso mtools
 
     - name: You compile it with my fucking compiler
       run: make all
