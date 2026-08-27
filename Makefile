@@ -16,6 +16,10 @@ OBJS    = \
           $(BUILD)/entry.o \
           $(BUILD)/main.o
 
+GRUB_MKRESCUE ?= grub-mkrescue
+ISO_DIR       = build/isodir
+ISO            = build/qinu.iso
+
 .PHONY: all clean run
 
 all: $(KERNEL)
@@ -31,8 +35,17 @@ $(BUILD)/main.o: kernel/main.c kernel/main.h
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) -Ikernel -c $< -o $@
 
-run: $(KERNEL)
-	$(QEMU) -kernel $(KERNEL)
+# run: $(KERNEL)
+# 	$(QEMU) -kernel $(KERNEL)
+
+run: iso
+	$(QEMU) -cdrom $(ISO)
 
 clean:
 	rm -rf $(BUILD)
+
+iso: $(KERNEL)
+	@mkdir -p $(ISO_DIR)/boot/grub
+	cp $(KERNEL) $(ISO_DIR)/boot/qinu.elf
+	cp boot/grub.cfg $(ISO_DIR)/boot/grub/grub.cfg
+	$(GRUB_MKRESCUE) -o $(ISO) $(ISO_DIR)
